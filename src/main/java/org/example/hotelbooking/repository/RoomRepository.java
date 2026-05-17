@@ -19,5 +19,5 @@ public interface RoomRepository extends JpaRepository<Room, String> {
     List<Room> findAllWithRoomType();
 
     @Query(value = "select r from Room r where r.status = :status")
-    List<Room> findAllRoomAvailable(@Param("status")String status);
+    List<Room> findAllRoomAvailable(@Param("status")RoomStatus status);
 }

@@ -32,7 +32,7 @@ public class RoomService {
 
     @Transactional(readOnly = true)
     public List<RoomResponse> getAllRoomsAvailable(){
-        return roomRepository.findAllRoomAvailable(String.valueOf(RoomStatus.AVAILABLE))
+        return roomRepository.findAllRoomAvailable(RoomStatus.AVAILABLE)
                 .stream().map(RoomResponse::from)
                 .toList();
     }
