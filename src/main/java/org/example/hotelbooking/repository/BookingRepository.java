@@ -10,12 +10,12 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookingRepository extends JpaRepository<Booking, String> {
-    @Query(value = "select b from Booking b where b.id = :id")
-    Optional<Booking> findBookingById(@Param("id")String id);
+public interface    BookingRepository extends JpaRepository<Booking, String> {
+    @Query(value = "select b from Booking b join fetch b.room where b.id = :id")
+    Optional<Booking> findBookingById(@Param("id") String id);
 
-    @Query(value = "select b from Booking b where b.customerCccd = :customerCccd")
-    List<Booking> findBookingByCustomerCccd(@Param("customerCccd")String customerCccd);
+    @Query(value = "select b from Booking b join fetch b.room where b.customerCccd = :customerCccd")
+    List<Booking> findBookingByCustomerCccd(@Param("customerCccd") String customerCccd);
 
 
 

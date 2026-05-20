@@ -32,10 +32,10 @@ public class BookingService {
     }
 
     @Transactional(readOnly = true)
-    public List<BookingResponse> getAllBookingById(String id){
+    public BookingResponse getBookingById(String id) {
         return bookingRepository.findBookingById(id)
-                .stream().map(BookingResponse ::from)
-                .toList();
+                .map(BookingResponse::from)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + id, ""));
     }
 
     @Transactional(readOnly = true)
@@ -45,7 +45,7 @@ public class BookingService {
                 .toList();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public BookingResponse createBooking(CreateBookingRequest request){
         Room room = roomRepository.findById(request.roomId())
                 .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy phòng: " + request.roomId(), "ROOM_NOT_FOUND"));
@@ -77,8 +77,8 @@ public class BookingService {
         return BookingResponse.from(bookingRepository.save(booking));
     }
 
-    @Transactional(readOnly = true)
-    public BookingResponse cancleBooking(String bookingId){
+    @Transactional
+    public BookingResponse cancelBooking(String bookingId){
         Booking booking=bookingRepository.findBookingById(bookingId)
                 .orElseThrow(()-> new ResourceNotFoundException("Không tìm thấy đơn đặt phòng: "+bookingId, "NOT_FOUND"));
 
